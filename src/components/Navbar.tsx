@@ -7,20 +7,20 @@ const useStyles = makeStyles((theme) => ({
     top: 0,
     left: 0,
     width: '100%',
-    height: '100px',
+    height: '120px',
   },
-  title: { fontSize: '1.8rem', position: 'absolute', bottom: 20, left: 50 },
+  title: { fontSize: '2.5rem', position: 'absolute', bottom: 20, left: 80 },
   links: {
     display: 'flex',
     flexDirection: 'row',
     position: 'absolute',
     bottom: 25,
-    right: 100,
-    width: 300,
+    right: 150,
+    width: 400,
     justifyContent: 'space-between',
   },
   link: {
-    fontSize: '1.2rem',
+    fontSize: '1.5rem',
   },
 }));
 

@@ -15,6 +15,8 @@ const useStyles = makeStyles((theme) => ({
     },
     '& .MuiOutlinedInput-root': {
       color: 'white',
+      fontSize: '1.2rem',
+
       '& fieldset': {
         borderRadius: '0',
 
@@ -44,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '0',
     transition: 'transform .2s',
     fontWeight: 700,
+    fontSize: '1.2rem',
     '&:hover': {
       backgroundColor: '#01B2CE',
       transform: 'scale(1.1)',
@@ -105,6 +108,8 @@ const Landing = () => {
             }}
             error={wrongPwd}
             className={classes.login}
+            inputProps={{ style: { fontSize: '1.2rem' } }}
+            InputLabelProps={{ style: { fontSize: '1.2rem' } }}
             id="outlined-basic"
             label="Password"
             variant="outlined"
