@@ -1,11 +1,12 @@
 import { Box, TextField, makeStyles, Button } from '@material-ui/core';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../data/UserContext';
 import './Login.css';
 
 const useStyles = makeStyles((theme) => ({
   login: {
     width: '400px',
+    borderRadius: '0',
     '& label.Mui-focused': {
       color: 'white',
     },
@@ -15,14 +16,15 @@ const useStyles = makeStyles((theme) => ({
     '& .MuiOutlinedInput-root': {
       color: 'white',
       '& fieldset': {
+        borderRadius: '0',
+
         backgroundColor: 'rgba(160, 160, 160, 0.3)',
-        borderColor: 'white',
       },
       '&:hover fieldset': {
         borderColor: 'yellow',
       },
       '&.Mui-focused fieldset': {
-        borderColor: 'white',
+        borderColor: 'none',
         color: 'white',
       },
     },
@@ -35,9 +37,11 @@ const useStyles = makeStyles((theme) => ({
   },
   signInButton: {
     marginTop: '20px',
-    width: '100px',
+    width: '400px',
+    height: '56px',
     color: 'white',
     backgroundColor: '#01B2CE',
+    borderRadius: '0',
     transition: 'transform .2s',
     fontWeight: 700,
     '&:hover': {
@@ -56,6 +60,21 @@ const Landing = () => {
   const [wrongPwd, setWrongPwd] = useState(false);
   const classes = useStyles();
 
+  useEffect(() => {
+    const cookie = document.cookie;
+    if (cookie) {
+      if (cookie.includes('logged_in')) {
+        const status = cookie.split('; ').find((row) => row.startsWith('logged_in='));
+        if (status) {
+          const isLoggedIn = status.split('=')[1];
+          if (isLoggedIn === 'true') {
+            setUser({ authenticated: true });
+          }
+        }
+      }
+    }
+  }, [setUser]);
+
   const handleChangeInput = (event: any) => {
     setPwd(event.target.value);
     if (wrongPwd) {
@@ -65,6 +84,8 @@ const Landing = () => {
   const handleButton = () => {
     if (pwd === 'riften') {
       setWrongPwd(false);
+      document.cookie = 'logged_in=true';
+
       setUser({ authenticated: true });
     } else {
       setWrongPwd(true);
