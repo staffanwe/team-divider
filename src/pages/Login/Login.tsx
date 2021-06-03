@@ -55,6 +55,9 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: 'grey',
     },
   },
+  font: {
+    color: '#cca257',
+  },
 }));
 
 const Landing = () => {
@@ -99,7 +102,7 @@ const Landing = () => {
     <div>
       <div className="content">
         <div className="title">
-          <h1>TEAM DIVIDER</h1>
+          <h1 className={classes.font}>TEAM DIVIDER</h1>
         </div>
         <Box className={classes.body}>
           <TextField

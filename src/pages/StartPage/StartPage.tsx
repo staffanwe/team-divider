@@ -4,6 +4,7 @@ import { Box, makeStyles } from '@material-ui/core';
 import Sword from '../../assets/Sword';
 import Swords from '../../assets/Swords';
 import Helmet from '../../assets/Helmet';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   body: {
@@ -44,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
 
 const StartPage = () => {
   const classes = useStyles();
+  const history = useHistory();
 
   return (
     <div>
@@ -51,7 +53,7 @@ const StartPage = () => {
         <Navbar />
         <Box className={classes.body}>
           <Box className={classes.choices}>
-            <Box className={classes.choice}>
+            <Box onClick={() => history.push('/5man')} className={classes.choice}>
               <Sword height={300} width={200} />
               <Box className={classes.choiceText}>5 MAN</Box>
             </Box>

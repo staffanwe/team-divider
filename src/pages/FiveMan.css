@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'friz-quadrata-std';
-  src: local('friz-quadrata-std'), url(../../fonts/friz-quadrata-std.otf) format('opentype');
+  src: local('friz-quadrata-std'), url(../fonts/friz-quadrata-std.otf) format('opentype');
 }
 .background-component {
   background: url(https://images.pexels.com/photos/289367/pexels-photo-289367.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260);

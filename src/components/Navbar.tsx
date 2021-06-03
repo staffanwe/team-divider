@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     height: '120px',
   },
-  title: { fontSize: '2.5rem', position: 'absolute', bottom: 20, left: 80 },
+  title: { fontSize: '2.5rem', position: 'absolute', bottom: 20, left: 80, color: '#cca257' },
   links: {
     display: 'flex',
     flexDirection: 'row',
