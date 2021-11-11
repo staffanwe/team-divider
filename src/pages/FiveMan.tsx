@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
-import { Box, Button, makeStyles, Dialog, DialogTitle, DialogContent } from '@material-ui/core';
+import { Box, Button, makeStyles, Dialog, DialogTitle, DialogContent, CircularProgress } from '@material-ui/core';
 import Sword from '../assets/Sword';
 import PlayerList from '../components/PlayerList';
 import './FiveMan.css';
 import PlayerI from '../PlayerInterface';
+import apis, { updatePlayer } from '../api/player-api';
 
 const useStyles = makeStyles((theme) => ({
   body: {
@@ -13,7 +14,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    marginTop: 50,
   },
   middle: {
     display: 'flex',
@@ -33,11 +33,17 @@ const useStyles = makeStyles((theme) => ({
     height: 100,
     margin: 100,
     marginTop: 250,
+    [theme.breakpoints.down('lg')]: {
+      marginTop: 150,
+    },
   },
   addButton: {
     backgroundColor: 'rgba(0, 132, 39, 1)',
     transition: 'transform .2s',
     borderRadius: 0,
+    [theme.breakpoints.down('lg')]: {
+      fontSize: '1.0rem',
+    },
 
     '&:hover': {
       transform: 'scale(1.1)',
@@ -51,6 +57,9 @@ const useStyles = makeStyles((theme) => ({
     transition: 'transform .2s',
     fontSize: '1.1rem',
     borderRadius: 0,
+    [theme.breakpoints.down('lg')]: {
+      fontSize: '1.0rem',
+    },
 
     '&:hover': {
       transform: 'scale(1.1)',
@@ -91,14 +100,11 @@ const useStyles = makeStyles((theme) => ({
 const FiveMan = () => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const [players, setPlayers] = useState([
-    { name: 'J4R Däjven', games: 0 },
-    { name: 'J4R Streifner', games: 0 },
-    { name: 'J4R Vlademort', games: 0 },
-    { name: 'J4R Chosen', games: 0 },
-    { name: 'J4R Godnaton', games: 0 },
-  ]);
+  const [players, setPlayers] = useState<PlayerI[]>([]);
   const [parPlayers, setParPlayers] = useState<PlayerI[]>([]);
+  const [playing, setPlaying] = useState<PlayerI[]>([]);
+  const [skipping, setSkipping] = useState<PlayerI[]>([]);
+
   const [loading, setLoading] = useState(true);
 
   const handleAddAll = () => {
@@ -112,14 +118,42 @@ const FiveMan = () => {
   };
 
   const handleRoll = () => {
+    if (parPlayers.length <= 5) {
+      parPlayers.forEach((player) => {
+        apis.updatePlayer(player.name, { name: player.name, nr_games: player.nr_games + 1 });
+      });
+      setPlaying(parPlayers);
+    } else {
+      let candidates = parPlayers;
+      candidates.sort((a, b) => a.nr_games - b.nr_games);
+      setSkipping(candidates.slice(5));
+      setPlaying(candidates.slice(0, 5));
+      for (let i = 0; i < 5; i++) {
+        const player = candidates[i];
+        apis.updatePlayer(player.name, { name: player.name, nr_games: player.nr_games + 1 });
+      }
+    }
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
+    loadPlayers();
+    setParPlayers([]);
+    setPlaying([]);
+    setSkipping([]);
   };
 
-  useEffect(() => {}, []);
+  const loadPlayers = async () => {
+    const res = await apis.getAllPlayers();
+    const players = res.data.data;
+    setPlayers(players);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    loadPlayers();
+  }, []);
 
   return (
     <div>
@@ -139,7 +173,7 @@ const FiveMan = () => {
           <div className="dialog-content">
             <PlayerList
               title={'TEAM'}
-              players={players}
+              players={playing}
               parPlayers={parPlayers}
               setPlayers={setPlayers}
               setParPlayers={setParPlayers}
@@ -148,7 +182,7 @@ const FiveMan = () => {
 
             <PlayerList
               title={'SKIPPERS'}
-              players={players}
+              players={skipping}
               parPlayers={parPlayers}
               setPlayers={setPlayers}
               setParPlayers={setParPlayers}
@@ -172,6 +206,7 @@ const FiveMan = () => {
               parPlayers={parPlayers}
               setPlayers={setPlayers}
               setParPlayers={setParPlayers}
+              loading={loading}
               version="av"
             />
 

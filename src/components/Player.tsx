@@ -16,6 +16,11 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 10,
     position: 'relative',
     transition: 'transform .2s',
+    [theme.breakpoints.down('lg')]: {
+      width: 350,
+      heigth: '3rem',
+      fontSize: '1.1rem',
+    },
 
     '&:hover': {
       transform: 'scale(1.1)',
@@ -35,6 +40,11 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 10,
     position: 'relative',
     transition: 'transform .2s',
+    [theme.breakpoints.down('lg')]: {
+      width: 350,
+      heigth: '3rem',
+      fontSize: '1.1rem',
+    },
 
     '&:hover': {
       transform: 'scale(1.1)',
@@ -54,6 +64,11 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 10,
     position: 'relative',
     transition: 'transform .2s',
+    [theme.breakpoints.down('lg')]: {
+      width: 350,
+      heigth: '3rem',
+      fontSize: '1.1rem',
+    },
   },
   body4: {
     display: 'flex',
@@ -67,6 +82,11 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 10,
     position: 'relative',
     transition: 'transform .2s',
+    [theme.breakpoints.down('lg')]: {
+      width: 350,
+      heigth: '3rem',
+      fontSize: '1.1rem',
+    },
   },
   text: {
     marginLeft: 20,
@@ -92,7 +112,7 @@ const Player = (props: { player: PlayerI; version: string }) => {
             <Helmet height={25} width={25} />
           </Box>
 
-          <Box className={classes.text}>{`${player.name}, ${player.games} GAMES`}</Box>
+          <Box className={classes.text}>{`${player.name}, ${player.nr_games} GAMES`}</Box>
         </Box>
       </div>
     );
@@ -105,7 +125,7 @@ const Player = (props: { player: PlayerI; version: string }) => {
           <Helmet height={25} width={25} />
         </Box>
 
-        <Box className={classes.text}>{`${player.name}, ${player.games} GAMES`}</Box>
+        <Box className={classes.text}>{`${player.name}, ${player.nr_games} GAMES`}</Box>
         {version !== 'no' &&
           (version === 'av' ? <Box className={classes.icon}>+</Box> : <DeleteIcon className={classes.icon} />)}
       </Box>

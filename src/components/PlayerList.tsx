@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, makeStyles } from '@material-ui/core';
+import { Box, CircularProgress, makeStyles } from '@material-ui/core';
 import Player from './Player';
 import PlayerI from '../PlayerInterface';
 
@@ -10,6 +10,10 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     width: 600,
     height: 600,
+    [theme.breakpoints.down('lg')]: {
+      width: 400,
+      height: 400,
+    },
     overflow: 'auto',
     '&::-webkit-scrollbar': {
       backgroundColor: 'transparent',
@@ -26,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const PlayerList = (props: any) => {
-  const { title, players, parPlayers, version, setPlayers, setParPlayers } = props;
+  const { title, players, parPlayers, version, setPlayers, setParPlayers, loading } = props;
   let v = version;
   const classes = useStyles();
   if (title === 'TEAM') {
@@ -78,19 +82,23 @@ const PlayerList = (props: any) => {
     <div>
       <Box className={classes.body}>
         <Box className={classes.title}>{title}</Box>
-        <Box className={classes.list}>
-          {version === 'av'
-            ? players.map((player: PlayerI, i: number) => (
-                <div key={i} onClick={() => handlePlayerClick(i)}>
-                  <Player player={player} version={version} />
-                </div>
-              ))
-            : parPlayers.map((player: PlayerI, i: number) => (
-                <div key={i} onClick={() => handlePlayerClick(i)}>
-                  <Player player={player} version={version} />
-                </div>
-              ))}
-        </Box>
+        {loading ? (
+          <CircularProgress />
+        ) : (
+          <Box className={classes.list}>
+            {version === 'av'
+              ? players.map((player: PlayerI, i: number) => (
+                  <div key={i} onClick={() => handlePlayerClick(i)}>
+                    <Player player={player} version={version} />
+                  </div>
+                ))
+              : parPlayers.map((player: PlayerI, i: number) => (
+                  <div key={i} onClick={() => handlePlayerClick(i)}>
+                    <Player player={player} version={version} />
+                  </div>
+                ))}
+          </Box>
+        )}
       </Box>
     </div>
   );
