@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import { Box, Button, makeStyles, Dialog, DialogTitle, DialogContent } from '@material-ui/core';
 import Sword from '../assets/Sword';
 import PlayerList from '../components/PlayerList';
 import './FiveMan.css';
+import PlayerI from '../PlayerInterface';
 
 const useStyles = makeStyles((theme) => ({
   body: {
@@ -76,12 +77,20 @@ const useStyles = makeStyles((theme) => ({
     width: '1500px',
     height: '1000px',
     backgroundColor: '#090b0c',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+  },
+  centerSword: {
+    position: 'absolute',
+    top: 30,
   },
 }));
 
 const FiveMan = () => {
   const classes = useStyles();
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [players, setPlayers] = useState([
     { name: 'J4R Däjven', games: 0 },
     { name: 'J4R Streifner', games: 0 },
@@ -89,13 +98,8 @@ const FiveMan = () => {
     { name: 'J4R Chosen', games: 0 },
     { name: 'J4R Godnaton', games: 0 },
   ]);
-  const [parPlayers, setParPlayers] = useState([
-    { name: 'J4R Proffessorn', games: 0 },
-    { name: 'J4R Yrkesmördarn', games: 0 },
-    { name: 'J4R Pykopath', games: 0 },
-    { name: 'J4R Troll Gath', games: 0 },
-    { name: 'Giants Belt', games: 0 },
-  ]);
+  const [parPlayers, setParPlayers] = useState<PlayerI[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const handleAddAll = () => {
     setParPlayers([...players, ...parPlayers]);
@@ -115,6 +119,8 @@ const FiveMan = () => {
     setOpen(false);
   };
 
+  useEffect(() => {}, []);
+
   return (
     <div>
       <div className="content">
@@ -125,7 +131,34 @@ const FiveMan = () => {
           aria-describedby="alert-dialog-description"
           classes={{ paper: classes.dialog }}
           maxWidth={'xl'}
-        ></Dialog>
+        >
+          <div className={classes.centerSword}>
+            <Sword height={120} width={100} />
+          </div>
+
+          <div className="dialog-content">
+            <PlayerList
+              title={'TEAM'}
+              players={players}
+              parPlayers={parPlayers}
+              setPlayers={setPlayers}
+              setParPlayers={setParPlayers}
+              version="no"
+            />
+
+            <PlayerList
+              title={'SKIPPERS'}
+              players={players}
+              parPlayers={parPlayers}
+              setPlayers={setPlayers}
+              setParPlayers={setParPlayers}
+              version="no"
+            />
+          </div>
+          <Button onClick={handleClose} className={classes.rollButton}>
+            OK
+          </Button>
+        </Dialog>
         <Navbar />
         <Box className={classes.body}>
           <Box className={classes.sword}>

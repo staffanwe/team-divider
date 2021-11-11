@@ -25,3 +25,12 @@
   max-height: 100vh;
   overflow: hidden;
 }
+.dialog-content {
+  color: white;
+  font-family: 'friz-quadrata-std';
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+}

@@ -43,6 +43,31 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: 'rgba(255, 0, 0, 0.43)',
     },
   },
+  body3: {
+    display: 'flex',
+    flexDirection: 'row',
+    fontSize: '1.4rem',
+    height: '4rem',
+    width: '500px',
+    backgroundColor: 'rgba(0, 132, 39, 0.43)',
+    alignItems: 'center',
+    marginBottom: 10,
+    position: 'relative',
+    transition: 'transform .2s',
+  },
+  body4: {
+    display: 'flex',
+    flexDirection: 'row',
+    fontSize: '1.4rem',
+    height: '4rem',
+    width: '500px',
+    backgroundColor: 'rgba(255, 0, 0, 0.43)',
+
+    alignItems: 'center',
+    marginBottom: 10,
+    position: 'relative',
+    transition: 'transform .2s',
+  },
   text: {
     marginLeft: 20,
   },
@@ -58,6 +83,20 @@ const useStyles = makeStyles((theme) => ({
 const Player = (props: { player: PlayerI; version: string }) => {
   const { player, version } = props;
   const classes = useStyles();
+
+  if (version === 'te' || version === 'sk') {
+    return (
+      <div>
+        <Box className={version === 'te' ? classes.body3 : classes.body4}>
+          <Box className={classes.helmet}>
+            <Helmet height={25} width={25} />
+          </Box>
+
+          <Box className={classes.text}>{`${player.name}, ${player.games} GAMES`}</Box>
+        </Box>
+      </div>
+    );
+  }
 
   return (
     <div>
